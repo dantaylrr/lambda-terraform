@@ -11,7 +11,7 @@ jobs:
           python-version: 3.7
       - name: install dependencies
         run: |
-          python3 -m pip3 install --upgrade pip3
+          python -m pip install --upgrade pip
           pip3 install pytest
 
       - name: run tests
@@ -24,4 +24,4 @@ jobs:
         if: success() || failure()
         with:
           name: test-results
-          paths: tests/lambda/test-results.xml
+          path: tests/lambda/test-results.xml
