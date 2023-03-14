@@ -20,7 +20,7 @@ jobs:
           pytest -v tests/unit
       
       - name: publish test results
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         if: success() || failure()
         with:
           name: test-results
