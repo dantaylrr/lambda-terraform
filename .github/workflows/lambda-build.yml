@@ -17,11 +17,11 @@ jobs:
       - name: run tests
         run: |
           cd lambda
-          python -m pytest -v tests/unit
+          python -m pytest -v tests/unit --junitxml=junit/tests/lambda/test-results.xml
       
       - name: publish test results
         uses: actions/upload-artifact@v2
         if: success() || failure()
         with:
           name: test-results
-          path: tests/lambda/test-results.xml
+          path: junit/tests/lambda/test-results.xml
