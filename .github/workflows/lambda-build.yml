@@ -1,7 +1,5 @@
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
 
 jobs:
   run-tests:
@@ -13,13 +11,13 @@ jobs:
         python-version: 3.7
       - name: install dependencies
         run: |
-        python3 -m pip3 install --upgrade pip3
-        pip3 install pytest
+          python3 -m pip3 install --upgrade pip3
+          pip3 install pytest
 
       - name: run tests
         run: |
-        cd lambda
-        pytest -v tests/unit
+          cd lambda
+          pytest -v tests/unit
       
       - name: publish test results
       - uses: actions/upload-artifact@v2
