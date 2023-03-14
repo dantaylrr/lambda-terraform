@@ -24,4 +24,4 @@ jobs:
         if: success() || failure()
         with:
           name: test-results
-          path: junit/tests/lambda/test-results.xml
+          path: lambda/junit/tests/lambda/test-results.xml
