@@ -1,0 +1,29 @@
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+        python-version: 3.7
+      - name: install dependencies
+        run: |
+        python3 -m pip3 install --upgrade pip3
+        pip3 install pytest
+
+      - name: run tests
+        run: |
+        cd lambda
+        pytest -v tests/unit
+      
+      - name: publish test results
+      - uses: actions/upload-artifact@v2
+        if: success() || failure()
+        with:
+          name: test-results
+          paths: tests/lambda/test-results.xml
