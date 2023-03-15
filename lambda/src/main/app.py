@@ -1,4 +1,4 @@
-from utils.time.time import Time
+from src.utils.time.time import Time
 
 def lambda_handler(event, context):
 
