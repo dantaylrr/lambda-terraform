@@ -39,3 +39,11 @@ jobs:
         run: |
           cd lambda
           make construct-directories
+      - name: build-package
+        run: |
+          cd lambda
+          make build-package
+      - name: clean-up
+        run: |
+          cd lambda
+          make clean-up
