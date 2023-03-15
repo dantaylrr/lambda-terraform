@@ -32,6 +32,11 @@ jobs:
     environment: package-release
     steps:
       - uses: actions/checkout@v2
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
       - uses: actions/setup-python@v2
         with:
           python-version: 3.7
@@ -43,6 +48,10 @@ jobs:
         run: |
           cd lambda
           make build-package
+      - name: release-to-s3
+        run: |
+          cd lambda
+          aws s3 cp ./tmp/package/my-deployment-package.zip ${{ vars.S3_LAMBDA_TEMPLATE_URI }}
       - name: clean-up
         run: |
           cd lambda
