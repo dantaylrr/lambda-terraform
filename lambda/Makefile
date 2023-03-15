@@ -3,8 +3,8 @@ construct-directories:
 	mkdir -p ./tmp/ ./tmp/package/
 
 build-package:
-	# pip3 can create dirs.
-	pip3 install --target ./tmp/dependencies -r ./requirements.txt
+	# pip can create dirs.
+	pip install --target ./tmp/dependencies -r ./requirements.txt
 	zip -r ./tmp/package/my-deployment-package.zip ./tmp/dependencies/*
 
 clean-up:

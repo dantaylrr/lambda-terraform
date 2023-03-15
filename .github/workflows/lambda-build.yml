@@ -25,3 +25,17 @@ jobs:
         with:
           name: test-results
           path: lambda/junit/tests/lambda/test-results.xml
+
+  build-package:
+    needs: run-tests
+    runs-on: ubuntu-latest
+    environment: package-release
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: set-up workspace
+        run: |
+          cd lambda
+          make construct-directories
