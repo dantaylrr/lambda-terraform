@@ -9,7 +9,7 @@ class Time(object):
 
         super().__init__(**kwargs)
 
-    def get_the_current_time(self, custom_datetime):
+    def get_the_current_time(self, custom_datetime=None):
         # custom_datetime will never be specified here & is only used for testing purposes.
         if not custom_datetime:
             # Get current timestamp.
