@@ -57,7 +57,7 @@ jobs:
         run: |
           cd lambda/${{ env.WORKING_DIR }}
           make generate-source-hash
-          echo "NEW_HASH=$(openssl dgst -sha256 -binary ./tmp/package/deployment-package.zip" | awk '{print $2}')" >> $GITHUB_ENV
+          echo "NEW_HASH=$(openssl dgst -sha256 -binary ./tmp/package/deployment-package.zip | awk '{print $2}')" >> $GITHUB_ENV
 
       - name: download-current-hash
         run: |
