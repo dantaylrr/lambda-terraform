@@ -21,7 +21,7 @@ jobs:
 
       - name: run tests
         run: |
-          cd lambda
+          cd lambda/${{ env.WORKING_DIR }}
           python -m pytest -v tests/unit --junitxml=junit/tests/lambda/test-results.xml
       
       - name: publish test results
@@ -29,7 +29,7 @@ jobs:
         if: success() || failure()
         with:
           name: test-results
-          path: lambda/junit/tests/lambda/test-results.xml
+          path: lambda/${{ env.WORKING_DIR }}/junit/tests/lambda/test-results.xml
 
   build-package:
     needs: run-tests
@@ -67,7 +67,7 @@ jobs:
 
 
       - name: release-deployment-package-to-s3
-        if: env.CUR_HASH != env.NEW_HASH
+        if: ${{ env.CUR_HASH }} != ${{ env.NEW_HASH }}
         run: |
           cd lambda/${{ env.WORKING_DIR }}
           aws s3 cp ./tmp/package/deployment-package.zip ${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/deployment-package/
