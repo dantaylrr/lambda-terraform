@@ -63,8 +63,9 @@ jobs:
           cd lambda/${{ env.WORKING_DIR }}
           aws s3 cp ${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/source-hash/ ./tmp/current_hash/
 
+
       - name: release-deployment-package-to-s3
-        if: $(openssl dgst -sha256 ./tmp/current_hash/*) == $(openssl dgst -sha256 ./tmp/hash/*)
+        if: ${{ openssl dgst -sha256 ./tmp/current_hash/* }} == ${{ openssl dgst -sha256 ./tmp/hash/* }}
         run: |
           cd lambda/${{ env.WORKING_DIR }}
           aws s3 cp ./tmp/package/deployment-package.zip ${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/deployment-package/
