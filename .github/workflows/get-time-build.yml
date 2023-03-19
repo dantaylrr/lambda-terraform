@@ -1,0 +1,71 @@
+on:
+  workflow_dispatch:
+    paths:
+      - "./lambda/get-time/*"
+
+env:
+  WORKING_DIR: "get-time"
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip3 install pytest
+
+      - name: run tests
+        run: |
+          cd lambda
+          python -m pytest -v tests/unit --junitxml=junit/tests/lambda/test-results.xml
+      
+      - name: publish test results
+        uses: actions/upload-artifact@v2
+        if: success() || failure()
+        with:
+          name: test-results
+          path: lambda/junit/tests/lambda/test-results.xml
+
+  build-package:
+    needs: run-tests
+    runs-on: ubuntu-latest
+    environment: package-release
+    steps:
+      - uses: actions/checkout@v2
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
+          aws-region: eu-west-2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: set-up workspace
+        run: |
+          cd lambda/${{ env.WORKING_DIR }}
+          make construct-directories
+      - name: build-package
+        run: |
+          cd lambda/${{ env.WORKING_DIR }}
+          make build-package
+      - name: generate-hash
+        run: |
+          cd lambda/${{ env.WORKING_DIR }}
+          make generate-source-hash
+      - name: release-deployment-package-to-s3
+        run: |
+          cd lambda/${{ env.WORKING_DIR }}
+          aws s3 cp ./tmp/package/deployment-package.zip ${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/deployment-package/
+      - name: release-source-hash-to-s3
+        run: |
+          cd lambda/${{ env.WORKING_DIR }}
+          aws s3 cp ./tmp/hash/deployment-package.sha256 ${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/source-hash/
+      - name: clean-up
+        run: |
+          cd lambda/${{ env.WORKING_DIR }}
+          make clean-up
