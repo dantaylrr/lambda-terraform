@@ -62,7 +62,7 @@ jobs:
       - name: download-current-hash
         run: |
           cd lambda/${{ env.WORKING_DIR }}
-          aws s3 cp "${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/source-hash/" "./tmp/current_hash/"
+          aws s3 cp "${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/source-hash/*.sha256" "./tmp/current_hash/"
           echo "CUR_HASH=$(openssl dgst -sha256 ./tmp/current_hash/*.sha256)" >> $GITHUB_ENV
 
 
