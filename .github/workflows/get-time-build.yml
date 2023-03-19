@@ -53,26 +53,26 @@ jobs:
         run: |
           cd lambda/${{ env.WORKING_DIR }}
           make build-package
-      - name: generate-new-hash
-        run: |
-          cd lambda/${{ env.WORKING_DIR }}
-          make generate-source-hash
-          echo "NEW_HASH=$(openssl dgst -sha256 -binary ./tmp/package/deployment-package.zip)" >> $GITHUB_ENV
 
-      - name: download-current-hash
-        run: |
-          cd lambda/${{ env.WORKING_DIR }}
-          aws s3 cp "${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/deployment-package/" "./tmp/current_hash/" --recursive
-          echo "CUR_HASH=$(openssl dgst -sha256 -binary ./tmp/current_hash/*.zip)" >> $GITHUB_ENV
+      #- name: generate-new-hash
+      #  run: |
+      #    cd lambda/${{ env.WORKING_DIR }}
+      #    make generate-source-hash
+      #    echo "NEW_HASH=$(openssl dgst -sha256 -binary ./tmp/package/deployment-package.zip)" >> $GITHUB_ENV
 
+      #- name: download-current-hash
+      #  run: |
+      #    cd lambda/${{ env.WORKING_DIR }}
+      #    aws s3 cp "${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/deployment-package/" "./tmp/current_hash/" --recursive
+      #    echo "CUR_HASH=$(openssl dgst -sha256 -binary ./tmp/current_hash/*.zip)" >> $GITHUB_ENV
 
       - name: release-deployment-package-to-s3
-        if: ${{ env.CUR_HASH }} != ${{ env.NEW_HASH }}
+      #  if: ${{ env.CUR_HASH }} != ${{ env.NEW_HASH }}
         run: |
           cd lambda/${{ env.WORKING_DIR }}
           aws s3 cp "./tmp/package/deployment-package.zip" "${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/deployment-package/"
       - name: release-source-hash-to-s3
-        if: ${{ env.CUR_HASH }} != ${{ env.NEW_HASH }}
+      #  if: ${{ env.CUR_HASH }} != ${{ env.NEW_HASH }}
         run: |
           cd lambda/${{ env.WORKING_DIR }}
           aws s3 cp "./tmp/hash/deployment-package.sha256" "${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/source-hash/"
