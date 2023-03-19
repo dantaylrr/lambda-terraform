@@ -75,7 +75,7 @@ jobs:
         if: ${{ env.CUR_HASH }} != ${{ env.NEW_HASH }}
         run: |
           cd lambda/${{ env.WORKING_DIR }}
-          aws s3 cp "./tmp/hash/deployment-package-${{ github.run_id }}.sha256" "${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/source-hash/"
+          aws s3 cp "./tmp/hash/deployment-package.sha256" "${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/source-hash/"
       - name: clean-up
         run: |
           cd lambda/${{ env.WORKING_DIR }}
