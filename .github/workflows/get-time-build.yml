@@ -63,22 +63,22 @@ jobs:
       #- name: download-current-hash
       #  run: |
       #    cd lambda/${{ env.WORKING_DIR }}
-      #    aws s3 cp ${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/deployment-package/ ./tmp/current_hash/ --recursive
+      #    aws s3 cp s3://${{ vars.S3_LAMBDA_TEMPLATE_BUCKET }}/${{ env.WORKING_DIR }}/deployment-package/ ./tmp/current_hash/ --recursive
       #    echo "CUR_HASH=$(openssl dgst -sha256 -binary ./tmp/current_hash/*.zip)" >> $GITHUB_ENV
 
       - name: release-deployment-package-to-s3
       #  if: ${{ env.CUR_HASH }} != ${{ env.NEW_HASH }}
         run: |
           cd lambda/${{ env.WORKING_DIR }}
-          aws s3 cp ./tmp/package/deployment-package.zip ${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/deployment-package/
+          aws s3 cp ./tmp/package/deployment-package.zip s3://${{ vars.S3_LAMBDA_TEMPLATE_BUCKET }}/${{ env.WORKING_DIR }}/deployment-package/
       - name: release-source-hash-to-s3
       #  if: ${{ env.CUR_HASH }} != ${{ env.NEW_HASH }}
         run: |
           cd lambda/${{ env.WORKING_DIR }}
-          aws s3 cp ./tmp/hash/deployment-package.sha256 ${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/source-hash/
+          aws s3 cp ./tmp/hash/deployment-package.sha256 s3://${{ vars.S3_LAMBDA_TEMPLATE_BUCKET }}/${{ env.WORKING_DIR }}/source-hash/
       - name: update-lambda-function
         run: |
-          aws lambda update-function-code --function-name ${{ env.LAMBDA_FUNCTION_NAME }} --s3-bucket ${{ vars.S3_LAMBDA_TEMPLATE_URI }} --s3-key ${{ env.WORKING_DIR }}/deployment-package/deployment-package.zip
+          aws lambda update-function-code --function-name ${{ env.LAMBDA_FUNCTION_NAME }} --s3-bucket ${{ vars.S3_LAMBDA_TEMPLATE_BUCKET }} --s3-key ${{ env.WORKING_DIR }}/deployment-package/deployment-package.zip
       - name: clean-up
         run: |
           cd lambda/${{ env.WORKING_DIR }}
