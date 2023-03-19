@@ -63,7 +63,7 @@ jobs:
         run: |
           cd lambda/${{ env.WORKING_DIR }}
           aws s3 cp "${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/deployment-package/" "./tmp/current_hash/" --recursive
-          echo "CUR_HASH=$(openssl dgst -sha256 -binary ./tmp/current_hash/*.sha256)" >> $GITHUB_ENV
+          echo "CUR_HASH=$(openssl dgst -sha256 -binary ./tmp/current_hash/*.zip)" >> $GITHUB_ENV
 
 
       - name: release-deployment-package-to-s3
