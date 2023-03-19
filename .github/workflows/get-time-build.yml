@@ -57,7 +57,7 @@ jobs:
         run: |
           cd lambda/${{ env.WORKING_DIR }}
           make generate-source-hash
-          echo "NEW_HASH=$(openssl dgst -sha256 -binary ./tmp/hash/*.sha256 | awk '{print $2}')" >> $GITHUB_ENV
+          echo "NEW_HASH=$(openssl dgst -sha256 -binary ./tmp/package/deployment-package.zip | awk '{print $2}')" >> $GITHUB_ENV
 
       - name: download-current-hash
         run: |
@@ -80,3 +80,5 @@ jobs:
         run: |
           cd lambda/${{ env.WORKING_DIR }}
           make clean-up
+
+          March 19, 2023, 18:50:31 (UTC+00:00)
