@@ -57,15 +57,17 @@ jobs:
         run: |
           cd lambda/${{ env.WORKING_DIR }}
           make generate-source-hash id=${{ github.run_id }}
+          echo "NEW_HASH=$(openssl dgst -sha256 ./tmp/current_hash/*)" >> $GITHUB_ENV
 
       - name: download-current-hash
         run: |
           cd lambda/${{ env.WORKING_DIR }}
           aws s3 cp ${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/source-hash/ ./tmp/current_hash/
+          echo "CUR_HASH=$(openssl dgst -sha256 ./tmp/current_hash/*)" >> $GITHUB_ENV
 
 
       - name: release-deployment-package-to-s3
-        if: ${{ openssl dgst -sha256 ./tmp/current_hash/* }} == ${{ openssl dgst -sha256 ./tmp/hash/* }}
+        if: env.CUR_HASH != env.NEW_HASH
         run: |
           cd lambda/${{ env.WORKING_DIR }}
           aws s3 cp ./tmp/package/deployment-package.zip ${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/deployment-package/
