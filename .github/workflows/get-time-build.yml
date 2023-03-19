@@ -72,6 +72,7 @@ jobs:
           cd lambda/${{ env.WORKING_DIR }}
           aws s3 cp "./tmp/package/deployment-package.zip" "${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/deployment-package/"
       - name: release-source-hash-to-s3
+        if: ${{ env.CUR_HASH }} != ${{ env.NEW_HASH }}
         run: |
           cd lambda/${{ env.WORKING_DIR }}
           aws s3 cp "./tmp/hash/deployment-package-${{ github.run_id }}.sha256" "${{ vars.S3_LAMBDA_TEMPLATE_URI }}/${{ env.WORKING_DIR }}/source-hash/"
