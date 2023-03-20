@@ -5,7 +5,7 @@ on:
 
 env:
   WORKING_DIR: "get-time"
-  LAMBDA_FUNCTION_NAME: "getTime"
+  LAMBDA_FUNCTION_NAME: "get-time"
 
 jobs:
   run-tests:
@@ -71,9 +71,9 @@ jobs:
       #  if: ${{ env.CUR_HASH }} != ${{ env.NEW_HASH }}
         run: |
           make release-source-hash-to-s3 working_dir=${{ env.WORKING_DIR }} lambda_template_bucket=${{ vars.S3_LAMBDA_TEMPLATE_BUCKET }}
-      #- name: update-lambda-function
-      #  run: |
-      #    aws lambda update-function-code --function-name ${{ env.LAMBDA_FUNCTION_NAME }} --s3-bucket ${{ vars.S3_LAMBDA_TEMPLATE_BUCKET }} --s3-key ${{ env.WORKING_DIR }}/deployment-package/deployment-package.zip
+      - name: update-lambda-function
+        run: |
+          aws lambda update-function-code --function-name ${{ env.LAMBDA_FUNCTION_NAME }} --s3-bucket ${{ vars.S3_LAMBDA_TEMPLATE_BUCKET }} --s3-key ${{ env.WORKING_DIR }}/deployment-package/deployment-package.zip
       - name: clean-up
         run: |
           make clean-up working_dir=${{ env.WORKING_DIR }}
