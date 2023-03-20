@@ -9,10 +9,10 @@ config = {
             env_variables               = {}
             timeout                     = 30
 
-            lambda_role_arn             = "arn:aws:iam::773189086839:role/service-role/getTime-role-fbuvjhcv"
+            lambda_role_arn             = "<add_iam_arn_here>"
             
-            s3_deployment_package_bucket_name = "dan-tf-lambda-templates"
-            s3_deployment_package_key = "get-time/deployment-package/deployment-package.zip"
+            s3_deployment_package_bucket_name = "<add_s3_bucket_name_here>"
+            s3_deployment_package_key = "<add_s3_deployment_key_here>"
         }
 
         get-date = {
@@ -24,10 +24,10 @@ config = {
             env_variables               = {}
             timeout                     = 30
 
-            lambda_role_arn             = "arn:aws:iam::773189086839:role/service-role/get-date-role-w6cvbez2"
+            lambda_role_arn             = "<add_iam_arn_here>"
             
-            s3_deployment_package_bucket_name = "dan-tf-lambda-templates"
-            s3_deployment_package_key = "get-date/deployment-package/deployment-package.zip"
+            s3_deployment_package_bucket_name = "<add_s3_bucket_name_here>"
+            s3_deployment_package_key = "<add_s3_deployment_key_here>"
         }
     }
 }
