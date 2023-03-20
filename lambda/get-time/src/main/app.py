@@ -8,6 +8,6 @@ def lambda_handler(event, context):
 
     # Return the time from lambda.
     return {
-        'statusCode': 200
+        'statusCode': 200,
         'body': json.dumps(f"Hello from Lambda! The current year is {year}, the current month is {month}, the current day is {day}, the current hour is {hour} & the current minute is {minute}.")
         }
