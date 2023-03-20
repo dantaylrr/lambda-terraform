@@ -22,7 +22,7 @@ jobs:
 
       - name: run tests
         run: |
-          cd lambda/${{ env.WORKING_DIR }}
+          cd lambda/${{ env.WORKING_DIR }}/
           python -m pytest -v tests/unit --junitxml=junit/tests/lambda/test-results.xml
       
       - name: publish test results
