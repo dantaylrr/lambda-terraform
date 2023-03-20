@@ -3,10 +3,10 @@ construct-directories:
 	mkdir -p ./lambda/$(working_dir)/tmp/ ./lambda/$(working_dir)/tmp/package/ ./lambda/$(working_dir)/tmp/hash/ ./lambda/$(working_dir)/tmp/current_hash/
 
 build-package:
-	# pip can create dirs.
-	cd lambda/$(working_dir)/
-	pip3 install --target ./tmp/dependencies -r ./requirements.txt
-	zip -r ./tmp/package/deployment-package.zip ./tmp/dependencies/*
+	# pip can create dirs - we want to exclude "lambda/<working_dir>" in our package - so run pip & zip commands from inside the python directory
+	cd ./lambda/$(working_dir)/ && \
+	pip3 install --target ./tmp/dependencies -r ./requirements.txt && \
+	zip -r ./tmp/package/deployment-package.zip ./tmp/dependencies/* && \
 	zip -r ./tmp/package/deployment-package.zip ./src/*
 
 generate-source-hash:
