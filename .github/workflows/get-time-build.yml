@@ -48,16 +48,13 @@ jobs:
           python-version: 3.7
       - name: set-up workspace
         run: |
-          cd lambda/${{ env.WORKING_DIR }}
-          make construct-directories
+          make construct-directories working_dir=${{ env.WORKING_DIR }}
       - name: build-package
         run: |
-          cd lambda/${{ env.WORKING_DIR }}
-          make build-package
+          make build-package working_dir=${{ env.WORKING_DIR }}
       - name: generate-new-hash
         run: |
-          cd lambda/${{ env.WORKING_DIR }}
-          make generate-source-hash
+          make generate-source-hash working_dir=${{ env.WORKING_DIR }}
       #    echo "NEW_HASH=$(openssl dgst -sha256 -binary ./tmp/package/deployment-package.zip)" >> $GITHUB_ENV
 
       #- name: download-current-hash
@@ -69,17 +66,14 @@ jobs:
       - name: release-deployment-package-to-s3
       #  if: ${{ env.CUR_HASH }} != ${{ env.NEW_HASH }}
         run: |
-          cd lambda/${{ env.WORKING_DIR }}
-          aws s3 cp ./tmp/package/deployment-package.zip s3://${{ vars.S3_LAMBDA_TEMPLATE_BUCKET }}/${{ env.WORKING_DIR }}/deployment-package/
+          make release-deployment-package-to-s3 working_dir=${{ env.WORKING_DIR }} lambda_template_bucket=${{ vars.S3_LAMBDA_TEMPLATE_BUCKET }}
       - name: release-source-hash-to-s3
       #  if: ${{ env.CUR_HASH }} != ${{ env.NEW_HASH }}
         run: |
-          cd lambda/${{ env.WORKING_DIR }}
-          aws s3 cp ./tmp/hash/deployment-package.sha256 s3://${{ vars.S3_LAMBDA_TEMPLATE_BUCKET }}/${{ env.WORKING_DIR }}/source-hash/
+          make release-source-hash-to-s3 working_dir=${{ env.WORKING_DIR }} lambda_template_bucket=${{ vars.S3_LAMBDA_TEMPLATE_BUCKET }}
       - name: update-lambda-function
         run: |
           aws lambda update-function-code --function-name ${{ env.LAMBDA_FUNCTION_NAME }} --s3-bucket ${{ vars.S3_LAMBDA_TEMPLATE_BUCKET }} --s3-key ${{ env.WORKING_DIR }}/deployment-package/deployment-package.zip
       - name: clean-up
         run: |
-          cd lambda/${{ env.WORKING_DIR }}
-          make clean-up
+          make clean-up working_dir=${{ env.WORKING_DIR }}
