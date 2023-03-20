@@ -13,7 +13,6 @@ config = {
             
             s3_deployment_package_bucket_name = "dan-tf-lambda-templates"
             s3_deployment_package_key = "get-time/deployment-package/deployment-package.zip"
-            s3_deployment_package_hash_key = "get-time/source-hash/deployment-package.sha256"
         }
     }
 }

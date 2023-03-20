@@ -4,9 +4,10 @@ construct-directories:
 
 build-package:
 	# pip can create dirs.
-	pip install --target ./lambda/$(working_dir)/tmp/dependencies -r ./lambda/$(working_dir)/requirements.txt
-	zip -r ./lambda/$(working_dir)/tmp/package/deployment-package.zip ./lambda/$(working_dir)/tmp/dependencies/*
-	zip -r ./lambda/$(working_dir)/tmp/package/deployment-package.zip ./lambda/$(working_dir)/src/*
+	cd lambda/$(working_dir)/
+	pip3 install --target ./tmp/dependencies -r ./requirements.txt
+	zip -r ./tmp/package/deployment-package.zip ./tmp/dependencies/*
+	zip -r ./tmp/package/deployment-package.zip ./src/*
 
 generate-source-hash:
 	# Generate new hash

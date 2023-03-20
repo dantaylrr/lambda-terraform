@@ -36,7 +36,7 @@ locals {
 
     lambda_role_arn = {
         for k, v in var.config :
-        k => lookup(v, "lambda_role", "")
+        k => lookup(v, "lambda_role_arn", "")
     }
 
     s3_deployment_package_bucket_name = {
@@ -47,10 +47,5 @@ locals {
     s3_deployment_package_key = {
         for k, v in var.config :
         k => lookup(v, "s3_deployment_package_key", "")
-    }
-
-    s3_deployment_package_hash_key ={
-        for k, v in var.config :
-        k => lookup(v, "s3_deployment_package_hash_key", "")
     }
 }
