@@ -42,11 +42,11 @@ _\*Subject to change._
 
 The below diagram demonstrates the current workflow upon initial deployment (i.e. Terraform hasn't yet deployed any Lambda infrastructure):
 
-<img src='./images/workflow/InitialTFDeploy.drawio.png'>
+<img src='./images/markdown/InitialTFDeploy.drawio.png'>
 
 The below diagram demonstrates the current workflow when source code has been updated & after Terraform has provisioned the Lambda infrastructure:
 
-<img src='./images/workflow/SubsequentTFDeploy.drawio.png'>
+<img src='./images/markdown/SubsequentTFDeploy.drawio.png'>
 
 # **Directory Structure.**
 
