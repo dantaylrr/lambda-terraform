@@ -141,4 +141,4 @@ Steps:
 
 4). Add desired Lambda configuration fields to Lambda tf.autovars file, found [here](https://github.com/dantaylrr/lambda-terraform-bootstrap/blob/dev/terraform/projects/lambda/terraform.auto.tfvars) under the ```./terraform/projects/lambda/``` directory.
 
-5). Push changes to GitHub remote & trigger the appropriate workflow file - all workflows heavily rely on a generalised ```Makefile``` that will run bash commands in our remote environment.
+5). Push changes to GitHub remote & trigger the appropriate workflow file - all workflows heavily rely on a generalised ```Makefile``` that will run bash commands in your remote environment.
