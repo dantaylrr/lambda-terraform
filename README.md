@@ -1,7 +1,7 @@
 # **Lambda-Terraform-Bootstrap.**
 
-<!-- TABLE OF CONTENTS -->
-<summary>Table of Contents</summary>
+# **Table of Contents.**
+
 <ol>
 <li><a href="#project-outline">Project Outline</a></li>
 <li><a href="#limitations-and-assumptions">Limitations and Assumptions</a></li>
